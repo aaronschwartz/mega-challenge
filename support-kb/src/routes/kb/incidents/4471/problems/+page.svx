@@ -1,0 +1,38 @@
+---
+layout: runbook
+title: '#4471 · two problems, not one'
+owner: support desk
+status: living
+reviewed: 2026-10-28
+signature: v1.eyJzdWIiOiIxODcyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjU0ODcsImV4cCI6MTc5MzMxMTg4N30.zJV0mcCkPVdfZUR0R5xzgwWtWTg6GKtDaoeNs1ESQnE
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Ticket **#4471** was marked known as a single month-flip parser bug. The merged reports
+are **412** unique ids. The cause logic in `#lib/kb/causes` splits them into two problems
+that need their own tickets.
+
+<Callout kind="warn">
+Subject-line dedupe (decision 0001) merged two different bugs into one ticket. Split them.
+</Callout>
+
+## What #4471 actually holds
+
+<CauseTable ticket={4471} />
+
+## The two problems
+
+1. **parser** — day-first tenants; the shared parser reads every date month first. Dates
+   flip. Covers the reports whose channel is not a `booking-v3` form with an `MM/…` hint.
+2. **hint** — day-first tenants on `booking-v3`; the form prints `MM/DD/YYYY` under the
+   field, people type month first, and the form still reads the tenant's day-first way.
+   A different bug from the shared parser.
+
+File one engineering ticket per cause. Do not keep both under #4471.
+
+<RenderStamp signature="v1.eyJzdWIiOiIxODcyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjU0ODcsImV4cCI6MTc5MzMxMTg4N30.zJV0mcCkPVdfZUR0R5xzgwWtWTg6GKtDaoeNs1ESQnE" />
